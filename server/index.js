@@ -14,27 +14,25 @@ server = http.createServer(app);
 
 const io = require('socket.io')(server,{
     cors:{
-    origin: 'http://localhost:3000',
-    methods:['GET','POST'],
-    allowedHeaders:['my-custom-header'],
-    credentials:true,
+        origin: 'http://localhost:3000',
+        //methods:['GET','POST'],
+        //allowedHeaders:['my-custom-header'],
+        //credentials:true,
     }
 });
 
 //const io = socketio(server);
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users.js');
-const { userInfo } = require('os');
-const { SocketAddress } = require('net');
 
 io.on('connection',(socket)=>{
-    
+
+    console.log('socket:'+socket.id);
+
     socket.on('join',({room,name}, callback)=>{
-        console.log(room+' ' + name);
+        console.log(room+' '+ name);
         const {error,user} = addUser({id:socket.id,room,name});
 
-        console.log(user.name);
-    
         // called when error occured
         if(error){
              return callback(error);
@@ -45,6 +43,8 @@ io.on('connection',(socket)=>{
 
         //sends to everyone besides the specific user
         socket.broadcast.to(user.room).emit({user:'admin',text:`${user.name} has joined the chat!`});
+
+        io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
     })
     
     console.log("Someone connected!");
@@ -53,8 +53,12 @@ io.on('connection',(socket)=>{
 
         const user = getUser(socket.id);
 
+        console.log("Message successfully sent by "+user.name);
+
         // to everyone including user himself
-        io.to('user.room').emit('message',{user:user.name,text:message});
+        io.to(user.room).emit('message',{user:user.name,text:message});
+
+        io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
 
         callback();
     })
@@ -62,9 +66,14 @@ io.on('connection',(socket)=>{
     // for specific socket
     socket.on('disconnect',()=>{
         console.log("Someone disconnected!");
+        const user = removeUser(socket.id);
+
+        if(user){
+            io.to(user.room).emit('message',{user:'admin',text:`${user.name} has left the chat`});
+        }
     }
     )
-})
+});
 
 
 server.listen(PORT,()=>{
