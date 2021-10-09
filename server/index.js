@@ -44,6 +44,7 @@ io.on('connection',(socket)=>{
         //sends to everyone besides the specific user
         socket.broadcast.to(user.room).emit({user:'admin',text:`${user.name} has joined the chat!`});
 
+        console.log('Users in current room: '+getUsersInRoom(user.room)[0].name);
         io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
     })
     
@@ -70,6 +71,9 @@ io.on('connection',(socket)=>{
 
         if(user){
             io.to(user.room).emit('message',{user:'admin',text:`${user.name} has left the chat`});
+
+            // updates user list
+            io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
         }
     }
     )

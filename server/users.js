@@ -35,14 +35,14 @@ const getUser = (id) => {
     
     console.log('\nGetting user...');
     console.log('Current user:' +id);
-    console.log('User located at first position:'+users[0]);
+    console.log('User located at last position:'+users[users.lastIndex]);
     return users.find((user)=>user.id===id);
 
 }
 
 const getUsersInRoom = (room) => {
     
-    console.log('Users in room: '+users.filter((user)=>user.room === room));
+    //console.log('Users in room: '+users.filter((user)=>user.room === room));
     return users.filter((user)=>user.room === room);
 }
 

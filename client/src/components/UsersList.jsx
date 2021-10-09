@@ -7,7 +7,7 @@ const UsersList =({users}) =>{
          {Object.values(users).map(user=>{
              return(
                  <h2>
-                     {user}
+                     {user.name}
                  </h2>
              )
          })}

@@ -57,14 +57,26 @@ const Chat = () =>{
             alert('Messages updated!');
             setMessages(messages=>[...messages,message]);
         })
-
-        socket.on('roomData',(roomData)=>{
-            alert('Users list updated!');
-            alert(roomData.users);
-        })
+        
     },[]); // empty array means it runs every render
-
     
+    useEffect(()=>{
+        
+        alert("Use effect 3 ran!");
+        
+                socket.on('roomData',(roomData)=>{
+                    alert('Users list updated!');
+                    alert(roomData);
+        
+                    // roomData is object of objects
+        
+                    Object.values(roomData).map(user=>{
+                        setUsers(user);
+                    })
+                })
+
+
+    },[messages]); // runs when every message is fetched
 
     // function for sending message
 
