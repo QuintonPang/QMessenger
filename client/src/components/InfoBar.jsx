@@ -6,13 +6,14 @@ const InfoBar = ({room}) =>{
     const history = useHistory();
 
     return(
-        <>
+        <div className='bg-primary text-center font-weight-bold' style={{height:'8vh'}}>
 
-            <h3> {room} </h3>
+            <h1> 
+                Room:{room}
 
-            <img onClick={()=>history.push('/')} src='/logout.png'alt='logout'/>
-        
-        </>
+                <img width='50' height='50' style={{position:'absolute',right:'10px'}} onClick={()=>history.push('/')} src='/logout.png'alt='logout'/>
+            </h1>
+        </div>
     )
 
 }

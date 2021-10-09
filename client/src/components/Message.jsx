@@ -12,21 +12,27 @@ const Message =({message:{user,text},name})=>{
     }
 
     return(
-        isSentByCurrentUser?(
-            <div>
-                <h4 style={{position:'relative',left:"600px"}}>
-                    {user}:
-                    {ReactEmoji.emojify(text)}
-                </h4>
-            </div>
+            <div className='row border  border-primary w-100' style={{wordWrap: 'break-word'}}>
+                {/*<div className='col-2 bg-warning'/> */}    
+                <div >
+        {isSentByCurrentUser?(
+           
+                    <h4 className='col-12 text-success'>
+                
+                        {user+': '}
+                        {ReactEmoji.emojify(text)}
+                         </h4>
+                        
         ):(
-            <div>
-                <h4>
-                    {user}:
+            
+            <h4>
+                    {user+': '}
                     {ReactEmoji.emojify(text)}
-                </h4>
+                    </h4>
+               
+        )}
+                </div>
             </div>
-        )
     )
 
 }

@@ -1,0 +1,26 @@
+@keyframes
+backgroundAnimation{
+    0%{
+        background-image:linear-gradient(135deg,rgb(231, 213, 213), rgb(212, 178, 183));
+    }
+    20%{
+        background-image:linear-gradient(to right,red , yellow );
+    }
+    40%{
+        background-image:linear-gradient(to right,pink , purple 50%);
+    }
+    60%{
+        background-image:linear-gradient(to right,pink , purple );
+    }
+    80%{
+        background-image:linear-gradient(to right,pink , purple );
+    }
+    100%{
+        background-image:linear-gradient(to right,red, orange );
+    }
+}
+
+#background{
+    animation: backgroundAnimation infinite;
+    transition: background-image 2s;
+}

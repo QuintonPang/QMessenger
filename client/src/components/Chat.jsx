@@ -31,6 +31,9 @@ const Chat = () =>{
         
         alert('room:'+r+' name:'+n);
 
+        setRoom(r);
+        setName(n);
+
         socket.emit('join', {room:r, name:n}, ({error})=>{
             
             if(error){
@@ -100,9 +103,9 @@ const Chat = () =>{
     return(
         <>
             <InfoBar room={room}/>
-            <Input message={message} sendMessage={sendMessage} setMessage={setMessage}/>
-            <Messages messages={messages} name={name}/>
             <UsersList users={users}/>
+            <Messages messages={messages} name={name}/>
+            <Input message={message} sendMessage={sendMessage} setMessage={setMessage}/>
         </>
     );
     

@@ -5,15 +5,15 @@ import Message from './Message';
 const Messages = ({messages,name}) =>{
 
     return(
-        <ScrollToBottom>
+        <div className="bg-light" style={{ height:'79vh',overflowY:'scroll'}}>
+           
                 {messages.map((message,i)=>{
                     return(
-                        <div key={i}>
-                            <Message message={message} name={name}/>
-                        </div>
-                    )
-                })}
-        </ScrollToBottom>
+                            <Message key={i} message={message} name={name}/>
+                            )
+                        })}
+        
+        </div>
     )
 }
 
