@@ -25,16 +25,18 @@ const Chat = () =>{
     
     useEffect(()=>{
 
-        alert('Use effect 1 ran');
+        // alert('Use effect 1 ran');
 
         socket = io(ENDPOINT);
         
-        alert('room:'+r+' name:'+n);
+        // alert('room:'+r+' name:'+n);
 
         setRoom(r);
         setName(n);
 
         socket.emit('join', {room:r, name:n}, ({error})=>{
+
+            // alert('join event is emitted');
             
             if(error){
                 alert(error);
@@ -42,7 +44,7 @@ const Chat = () =>{
         });
 
         return() =>{
-            alert('Disconnected');
+            // alert('Disconnected');
 
             // reserved
             socket.disconnect();
@@ -54,10 +56,10 @@ const Chat = () =>{
     //receive messages
     useEffect(()=>{
         
-        alert('Use effect 2 ran');
+        // alert('Use effect 2 ran');
 
         socket.on('message',(message)=>{
-            alert('Messages updated!');
+            // alert('Messages updated!');
             setMessages(messages=>[...messages,message]);
         })
         
@@ -65,18 +67,18 @@ const Chat = () =>{
     
     useEffect(()=>{
         
-        alert("Use effect 3 ran!");
+        //alert("Use effect 3 ran!");
         
-                socket.on('roomData',(roomData)=>{
-                    alert('Users list updated!');
-                    alert(roomData);
-        
-                    // roomData is object of objects
-        
-                    Object.values(roomData).map(user=>{
-                        setUsers(user);
-                    })
-                })
+        socket.on('roomData',(roomData)=>{
+            // alert('Users list updated!');
+            // alert(roomData);
+
+            // roomData is object of objects
+
+            Object.values(roomData).map(user=>{
+                setUsers(user);
+            })
+        })
 
 
     },[messages]); // runs when every message is fetched

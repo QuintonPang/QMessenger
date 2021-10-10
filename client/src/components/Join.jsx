@@ -11,7 +11,7 @@ const Join = () =>{
 
     return(
         <div className='d-flex flex-column align-items-center justify-content-center' id='background' style={{height:"100vh"}}>
-        <div className='bg-light h-50 w-50 d-flex flex-column justify-content-center align-items-center'>
+        <div className='bg-light h-50 w-50 d-flex flex-column justify-content-between align-items-center rounded p-5 border border-4 border-dark'>
             <h1>Join Room</h1>
             <h3>
                 <input placeholder='Enter room code' type='text' onChange={(event)=>{setRoom(event.target.value)}} />
@@ -21,7 +21,7 @@ const Join = () =>{
             </h3>
 
             {/* event.preventDefault() prevents the button from being clicked */}
-            <button type='submit' onClick={(event)=>(name!==''||room!=='')?history.push(`/chat/room=${room}&name=${name}`):event.preventDefault()}>
+            <button className='btn btn-dark'type='submit' onClick={(event)=>(name!==''||room!=='')?history.push(`/chat/room=${room}&name=${name}`):event.preventDefault()}>
                 JOIN
             </button>
         </div>

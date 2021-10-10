@@ -14,7 +14,7 @@ server = http.createServer(app);
 
 const io = require('socket.io')(server,{
     cors:{
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000','https://qmessenger.herokuapp.com',]
         //methods:['GET','POST'],
         //allowedHeaders:['my-custom-header'],
         //credentials:true,
@@ -30,7 +30,7 @@ io.on('connection',(socket)=>{
     console.log('socket:'+socket.id);
 
     socket.on('join',({room,name}, callback)=>{
-        console.log(room+' '+ name);
+        console.log('Room: '+ room+' User Name: '+ name);
         const {error,user} = addUser({id:socket.id,room,name});
 
         // called when error occured
@@ -39,12 +39,13 @@ io.on('connection',(socket)=>{
         }
 
         socket.join(user.room);
-        socket.emit('message',{user:'admin',text:`${user.name}, welcome to the chat!`});
+        socket.emit('message',{user:'Admin',text:`${user.name}, welcome to the chat!`});
 
         //sends to everyone besides the specific user
-        socket.broadcast.to(user.room).emit({user:'admin',text:`${user.name} has joined the chat!`});
+        socket.broadcast.to(user.room).emit('message',{user:'Admin',text:`${user.name} has joined the chat!`});
 
         console.log('Users in current room: '+getUsersInRoom(user.room)[0].name);
+
         io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
     })
     
@@ -67,11 +68,14 @@ io.on('connection',(socket)=>{
     // for specific socket
     socket.on('disconnect',()=>{
         console.log("Someone disconnected!");
+
+        
         const user = removeUser(socket.id);
-
+        
         if(user){
-            io.to(user.room).emit('message',{user:'admin',text:`${user.name} has left the chat`});
 
+            console.log("Disconnect message to: "+ user.room)
+            socket.broadcast.to(user.room).emit('message',{user:'Admin',text:`${user.name} has left the chat`});
             // updates user list
             io.to(user.room).emit('roomData',{room:user.room, users:getUsersInRoom(user.room)});
         }
