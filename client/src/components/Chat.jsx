@@ -7,6 +7,7 @@ import Input from './Input';
 import UsersList from './UsersList';
 
 const ENDPOINT = 'http://localhost:5000';
+// ENDPOINT = 'https://qmessenger.herokuapp.com';
     
 let socket;
 
